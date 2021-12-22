@@ -100,3 +100,6 @@ x <- unique(x)
 # Save to CSV
 write.csv(x, file="211222_reneth_gwas_sample_key.csv", row.names = FALSE, sep=",", quote=FALSE)
 ```
+
+## Adapter trimming
+The next step in the process is to trim the adapters. Since this is my second time processing this dataset, there is no reason to run the FastQC quality reports.
