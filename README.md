@@ -50,6 +50,25 @@ Next, you should make a file with the list of directories. This `txt` file will 
 ```bash
 ls Sample*/ -d | tr -d / > 211222_reneth_gwas_sample_directory_list.txt
 ```
+This next step is necessary because we are working with paired-end reads. We are doing it because the file `211222_reneth_gwas_sample_names_and_numbers.csv` contains 2 lines per sample (one for the forward read and one for the reverse read).
+```bash
+awk 'FNR%2' 211222_reneth_gwas_sample_names_and_numbers.csv > 211222_reneth_gwas_file_list_every_other.csv
+```
+_Make sure you open the resulting file using_ `vi` _to manually remove the header line_. Once that is done, we can make symbolic links (symlinks) to point to the data rather than take up disk space by needlessly duplicating the original files.
+```bash
+# Make symlinks to GBS data
+# It should start at Sample_0073 because that's the first sample number in our dataset
+# !!! IMPORTANT !!! I also opened the CSV file with vim (```vi``` command) and removed the header line because its presence screwed up the numbering system. Dead/broken symlinks were placed into the Sample_0073 folder and the links for Sample_0073 were placed in the Sample_0074 folder. Each directory/sample ID was therefore off by 1.
+n=$(printf "%04d\n" "$((73))")
+cat 211222_reneth_gwas_file_list_every_other.csv | cut -f 9 -d / \
+	| while read i; do
+	STEM=$(echo $i | rev | cut -f 3,4,5,6,7 -d "_" | rev)
+	echo $STEM
+	ln -s /home/jkimball/data_delivery/umgc/2021-q4/211108_A00223_0697_BHNY3NDSX2/Kimball_Project_008/${STEM}_R1_001.fastq.gz Sample_$n/Sample_${n}_R1.fq.gz
+	ln -s /home/jkimball/data_delivery/umgc/2021-q4/211108_A00223_0697_BHNY3NDSX2/Kimball_Project_008/${STEM}_R2_001.fastq.gz Sample_$n/Sample_${n}_R2.fq.gz
+	n=$(printf "%04d\n" "$((10#$n+1))")
+	done
+```
 In the next step, we will move back to the R statistical environment to create a sample key.
 ```R
 # Move back to R
