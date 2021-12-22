@@ -2,7 +2,9 @@
 Code relating to Reneth's GWAS project
 
 ## Directory setup
-The next step is to move into the R statistical environment to go from file names to a workable `CSV` file that will be used in the next step of the directory structure setup
+In my initial analysis that I called **nov_2021_gbs**, I created a plain text file called `nov_2021_gbs_directory_setup.txt`. It is easy enough for me to understand, but I thought the steps might make more sense to everyone else if I put it ito a format that was easier to understand. I think it is particularly important because it involves switching back and forth between the `bash` command line and the `R` statistical environment. Since markdown files (`.md`) enable code blocks, I thought it would help with the interactive steps outlined here.
+
+The next step is to move into the `R` statistical environment to go from file names to a workable `CSV` file that will be used in the next step of the directory structure setup
 ```R
 # Read in data using the data.table package
 library(data.table)
@@ -69,7 +71,7 @@ cat 211222_reneth_gwas_file_list_every_other.csv | cut -f 9 -d / \
 	n=$(printf "%04d\n" "$((10#$n+1))")
 	done
 ```
-In the next step, we will move back to the R statistical environment to create a sample key.
+In the next step, we will move back to the `R` statistical environment to create a sample key.
 ```R
 # Move back to R
 library(data.table)
