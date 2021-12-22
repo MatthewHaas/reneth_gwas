@@ -50,3 +50,32 @@ Next, you should make a file with the list of directories. This `txt` file will 
 ```bash
 ls Sample*/ -d | tr -d / > 211222_reneth_gwas_sample_directory_list.txt
 ```
+In the next step, we will move back to the R statistical environment to create a sample key.
+```R
+# Move back to R
+library(data.table)
+
+# Read in data
+x <- fread("211222_reneth_gwas_sample_names_and_numbers.csv")
+
+# Change column names
+setnames(x, c("sample_number", "sample_name"))
+
+# Add leading zeros
+x[, sample_number := sprintf("%04d", as.numeric(sample_number))]
+# Add "Sample_" to each sample number
+x[, sample_number := paste0("Sample_", sample_number)]
+
+# Remove beginning the beginning part of the filename to remove the part of the path that is no longer necessary to keep
+x[, sample_name := sub("^.+Project_008/", "", sample_name)]
+
+# Remove trailing part of filenames (sample names)---ultimately, we only need one line per sample, not two (a consequence of having 2 files per sample for paired-end reads)
+x[, sample_name := sub("_[R1].+$", "", sample_name)]
+x[, sample_name := sub("_[R2].+$", "", sample_name)]
+
+# Retain unique values only
+x <- unique(x)
+
+# Save to CSV
+write.csv(x, file="211222_reneth_gwas_sample_key.csv", row.names = FALSE, sep=",", quote=FALSE)
+```
