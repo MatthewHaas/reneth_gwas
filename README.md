@@ -42,3 +42,11 @@ cat 211222_reneth_gwas_sample_names_and_numbers.csv | cut -f 1 -d , \
 	mkdir -p $d
 	done
 ```
+Once that is done, you will probably notice that there is a directory called `Sample_sample_number` which is obviously a mistake. You can easily remove it with a one-liner:
+```bash
+rm -rf Sample_sample_number
+```
+Next, you should make a file with the list of directories. This `txt` file will come in handy for future steps of the GBS analysis.
+```bash
+ls Sample*/ -d | tr -d / > 211222_reneth_gwas_sample_directory_list.txt
+```
