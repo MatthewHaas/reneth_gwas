@@ -68,6 +68,10 @@ cat 211222_reneth_gwas_file_list_every_other.csv | cut -f 9 -d / \
 	echo $STEM
 	ln -s /home/jkimball/data_delivery/umgc/2021-q4/211108_A00223_0697_BHNY3NDSX2/Kimball_Project_008/${STEM}_R1_001.fastq.gz Sample_$n/Sample_${n}_R1.fq.gz
 	ln -s /home/jkimball/data_delivery/umgc/2021-q4/211108_A00223_0697_BHNY3NDSX2/Kimball_Project_008/${STEM}_R2_001.fastq.gz Sample_$n/Sample_${n}_R2.fq.gz
+	exitStatus=$?
+	if [ $exitStatus != 0 ]; then
+		n=$(printf "%04d\n" "$((10#$n+1))")
+	fi
 	n=$(printf "%04d\n" "$((10#$n+1))")
 	done
 ```
