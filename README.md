@@ -56,11 +56,9 @@ This next step is necessary because we are working with paired-end reads. We are
 ```bash
 awk 'FNR%2' 211222_reneth_gwas_sample_names_and_numbers.csv > 211222_reneth_gwas_file_list_every_other.csv
 ```
-_Make sure you open the resulting file using_ `vi` _to manually remove the header line_. Once that is done, we can make symbolic links (symlinks) to point to the data rather than take up disk space by needlessly duplicating the original files.
+_Make sure you open the resulting file using_ `vi` _to manually remove the header line_. Once that is done, we can make symbolic links (symlinks) to point to the data rather than take up disk space by needlessly duplicating the original files. **Note** that when I analyzed the original dataset, I set `n` to start at 73 and then increased that value by 1 with each iteration of the `while` loop. Since this iteration of the analysis only contains the GWAS samples, there are gaps in the sequence of sample numbers, necessitating a different approach. The approach I used involves extracting the sample number (`Snumber`) from the file name and using that rather than relying on counting iterations through the loop.
 ```bash
 # Make symlinks to GBS data
-# It should start at Sample_0073 because that's the first sample number in our dataset
-# !!! IMPORTANT !!! I also opened the CSV file with vim (```vi``` command) and removed the header line because its presence screwed up the numbering system. Dead/broken symlinks were placed into the Sample_0073 folder and the links for Sample_0073 were placed in the Sample_0074 folder. Each directory/sample ID was therefore off by 1.
 cat 211222_reneth_gwas_file_list_every_other.csv | cut -f 9 -d / \
 	| while read i; do
 	STEM=$(echo $i | rev | cut -f 3,4,5,6,7 -d "_" | rev)
