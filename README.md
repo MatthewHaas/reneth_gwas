@@ -128,8 +128,8 @@ The script to submit for the adapter trimming is [run_cutadapt.sh](adapter_trimm
 
 ## Read alignment
 After you have trimmed the adapters from the reads, the next step is to align the reads to the genome. We use the Burrows-Wheeler Aligner Maximal Exact Match (BWA-MEM). I decided to speed up the step by running multiple processes in parallel; however, rather than use [GNU Parallel](https://www.gnu.org/software/parallel/), I chose to break the alignment step into 5 separate scripts, segregated by GWAS population membership (Barron, FY-C20, Itasca-C12, Itasca-C20, and K20. This is why there are 5 separate BWA scripts. **Note:** This is only appropriate for the alignment step. Don't try to do the same thing with the SNP-calling step.
-1) [run_bwa_Barron.sh](alignment/run_bwa_Barron.sh)
-2) [run_bwa_FYC20.sh](alignment/run_bwa_FYC20.sh)
-3) [run_bwa_ItascaC12.sh](alignment/run_bwa_ItascaC12.sh)
-4) [run_bwa_ItascaC20.sh](alignment/run_bwa_ItascaC20.sh)
-5) [run_bwa_K2.sh](alignment/run_bwa_K2.sh)
+1) [run_bwa_Barron.sh](alignment/run_bwa_Barron.sh) which requires [Barron_samples.txt](helper_files/Barron_samples.txt)
+2) [run_bwa_FYC20.sh](alignment/run_bwa_FYC20.sh) which requires [FYC20_samples.txt](helper_files/FYC20_samples.txt)
+3) [run_bwa_ItascaC12.sh](alignment/run_bwa_ItascaC12.sh) which requires [ItascaC12_samples.txt](helper_files/ItascaC12_sample.txt)
+4) [run_bwa_ItascaC20.sh](alignment/run_bwa_ItascaC20.sh) which requires [ItascaC20_samples.txt](helper_files/ItascaC20_samples.txt)
+5) [run_bwa_K2.sh](alignment/run_bwa_K2.sh) which requries [K2_samples.txt](helper_files/K2_samples.txt)
