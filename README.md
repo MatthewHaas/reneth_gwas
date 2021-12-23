@@ -2,7 +2,29 @@
 Code relating to Reneth's GWAS project
 
 ## Directory setup
-In my initial analysis that I called **nov_2021_gbs**, I created a plain text file called `nov_2021_gbs_directory_setup.txt`. It is easy enough for me to understand, but I thought the steps might make more sense to everyone else if I put it ito a format that was easier to understand. I think it is particularly important because it involves switching back and forth between the `bash` command line and the `R` statistical environment. Since markdown files (`.md`) enable code blocks, I thought it would help with the interactive steps outlined here.
+In my initial analysis that I called [**nov_2021_gbs**](https://github.com/MatthewHaas/nov_2021_gbs), I created a plain text file called `nov_2021_gbs_directory_setup.txt`. It is easy enough for me to understand, but I thought the steps might make more sense to everyone else if I put it ito a format that was easier to understand. I think it is particularly important because this was done interactively and involves switching back and forth between the `bash` command line and the `R` statistical environment. Since markdown files (`.md`) enable code blocks, I thought it would help with the interactive steps outlined here.
+
+The data are available here in the following directory:<br>
+```bash
+/home/jkimball/data_delivery/umgc/2021-q4/211108_A00223_0697_BHNY3NDSX2/Kimball_Project_008/
+```
+
+If you want to count the number of `FASTQ` files there are (as a type of pre-check), you can use this command:
+```bash
+find /home/jkimball/data_delivery/umgc/2021-q4/211108_A00223_0697_BHNY3NDSX2/Kimball_Project_008/*fastq.gz | wc -l 
+```
+
+The analysis was carried out in the following working direcotry:
+```bash
+/scratch.global/haasx092/reneth_gwas
+```
+
+The first step is to make a ```CSV``` file containing the full paths to the data.
+```bash
+# Write the names of gzipped FASTQ files to a CSV file
+ls /home/jkimball/data_delivery/umgc/2021-q4/211108_A00223_0697_BHNY3NDSX2/Kimball_Project_008/*fastq.gz > 211117_gbs_filenames.csv
+```
+The resulting file (`211117_gbs_filenames.csv`) contains _all_ of the `FASTQ` files from the `Kimball_Project_008` data release. This includes Reneth's GWAS populations, the 309 & 310 populations, and Claudia's disease-resistant and -susceptible samples. For purposes of this anaysis, all non-GWAS samples were manually removed and saved as `211222_reneth_gwas_gbs_filenames.csv`.
 
 The next step is to move into the `R` statistical environment to go from file names to a workable `CSV` file that will be used in the next step of the directory structure setup
 ```R
@@ -44,7 +66,7 @@ cat 211222_reneth_gwas_sample_names_and_numbers.csv | cut -f 1 -d , \
 	mkdir -p $d
 	done
 ```
-Once that is done, you will probably notice that there is a directory called `Sample_sample_number` which is obviously a mistake. You can easily remove it with a one-liner:
+Once that is done, you will probably notice that there is a directory called `Sample_sample_number` which is an artefact of the code. I probably could change the code so that the header isn't interpreted as a sample name, but it's also super easy to just remove it after the code finishes. You can easily remove it with a one-liner:
 ```bash
 rm -rf Sample_sample_number
 ```
