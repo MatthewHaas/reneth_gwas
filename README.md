@@ -125,3 +125,5 @@ write.csv(x, file="211222_reneth_gwas_sample_key.csv", row.names = FALSE, sep=",
 The next step in the process is to trim the adapters. Since this is my second time processing this dataset, there is no reason to run the FastQC quality reports.
 
 The script to submit for the adapter trimming is [run_cutadapt.sh](adapter_trimming/run_cutadapt.sh) which depends on/calls the script [cutadapt_wrapper_script.sh](adapter_trimming/cutadapt_wrapper_script.sh). That means they need to be in the same directory in order to work properly.
+
+## Read alignment
