@@ -127,3 +127,9 @@ The next step in the process is to trim the adapters. Since this is my second ti
 The script to submit for the adapter trimming is [run_cutadapt.sh](adapter_trimming/run_cutadapt.sh) which depends on/calls the script [cutadapt_wrapper_script.sh](adapter_trimming/cutadapt_wrapper_script.sh). That means they need to be in the same directory in order to work properly.
 
 ## Read alignment
+After you have trimmed the adapters from the reads, the next step is to align the reads to the genome. We use the Burrows-Wheeler Aligner Maximal Exact Match (BWA-MEM). I decided to speed up the step by running multiple processes in parallel; however, rather than use [GNU Parallel](https://www.gnu.org/software/parallel/), I chose to break the alignment step into 5 separate scripts, segregated by GWAS population membership (Barron, FY-C20, Itasca-C12, Itasca-C20, and K20. This is why there are 5 separate BWA scripts. **Note:** This is only appropriate for the alignment step. Don't try to do the same thing with the SNP-calling step.
+1) [run_bwa_Barron.sh](alignment/run_bwa_Barron.sh)
+2) [run_bwa_FYC20.sh](alignment/run_bwa_FYC20.sh)
+3) [run_bwa_ItascaC12.sh](alignment/run_bwa_ItascaC12.sh)
+4) [run_bwa_ItascaC20.sh](alignment/run_bwa_ItascaC20.sh)
+5) [run_bwa_K2.sh](alignment/run_bwa_K2.sh)
