@@ -133,3 +133,6 @@ After you have trimmed the adapters from the reads, the next step is to align th
 3) [run_bwa_ItascaC12.sh](alignment/run_bwa_ItascaC12.sh) which requires [ItascaC12_samples.txt](helper_files/ItascaC12_samples.txt)
 4) [run_bwa_ItascaC20.sh](alignment/run_bwa_ItascaC20.sh) which requires [ItascaC20_samples.txt](helper_files/ItascaC20_samples.txt)
 5) [run_bwa_K2.sh](alignment/run_bwa_K2.sh) which requries [K2_samples.txt](helper_files/K2_samples.txt)
+
+# Index your `BAM` files
+Once BWA-MEM has completed, you must index the `BAM` files before you can move on to the SNP calling step. Use the script [index_bams.sh](index_bams.sh) in order to accomplish this. You also need the file [reneth_gwas_sorted_bam_list.txt](helper_files/reneth_gwas_sorted_bam_list.txt) in order to make it work.
