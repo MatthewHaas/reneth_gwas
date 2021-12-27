@@ -1,6 +1,15 @@
 # README for reneth_gwas
 Code relating to Reneth's GWAS project
 
+## GWAS samples included in this analysis
+|Population | Number of individuals |
+| :----: | :----: |
+| Barron | 168 |
+| FY-C20 | 179 |
+| Itasca-C12 | 158 |
+| Itasca-C20 | 164 |
+| K2 | 191 |
+
 ## Directory setup
 In my initial analysis that I called [**nov_2021_gbs**](https://github.com/MatthewHaas/nov_2021_gbs), I created a plain text file called `nov_2021_gbs_directory_setup.txt`. It is easy enough for me to understand, but I thought the steps might make more sense to everyone else if I put it ito a format that was easier to understand. I think it is particularly important because this was done interactively and involves switching back and forth between the `bash` command line and the `R` statistical environment. Since markdown files (`.md`) enable code blocks, I thought it would help with the interactive steps outlined here.
 
