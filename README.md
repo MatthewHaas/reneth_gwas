@@ -1,6 +1,14 @@
 # README for reneth_gwas
 Code relating to Reneth's GWAS project
 
+## Contents
+[GWAS samples included in this analysis](#GWAS-samples-included-in-this-analysis)
+[Directory setup](#Directory-setup)
+[Adapter trimming](#Adapter-trimming)
+[Read alignment](#Read-alignment)
+[Index your BAM files](#Index-your-BAM-files)
+[SNP calling](#SNP-calling)
+
 ## GWAS samples included in this analysis
 |Population | Number of individuals |
 | :----: | :----: |
@@ -143,5 +151,7 @@ After you have trimmed the adapters from the reads, the next step is to align th
 4) [run_bwa_ItascaC20.sh](alignment/run_bwa_ItascaC20.sh) which requires [ItascaC20_samples.txt](helper_files/ItascaC20_samples.txt)
 5) [run_bwa_K2.sh](alignment/run_bwa_K2.sh) which requries [K2_samples.txt](helper_files/K2_samples.txt)
 
-# Index your `BAM` files
+## Index your `BAM` files
 Once BWA-MEM has completed, you must index the `BAM` files before you can move on to the SNP calling step. Use the script [index_bams.sh](index_bams.sh) in order to accomplish this. You also need the file [reneth_gwas_sorted_bam_list.txt](helper_files/reneth_gwas_sorted_bam_list.txt) in order to make it work.
+
+## SNP calling
