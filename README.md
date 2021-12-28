@@ -2,12 +2,12 @@
 Code relating to Reneth's GWAS project
 
 ## Contents
-[GWAS samples included in this analysis](#GWAS-samples-included-in-this-analysis)
-[Directory setup](#Directory-setup)
-[Adapter trimming](#Adapter-trimming)
-[Read alignment](#Read-alignment)
-[Index your BAM files](#Index-your-BAM-files)
-[SNP calling](#SNP-calling)
+[GWAS samples included in this analysis](#GWAS-samples-included-in-this-analysis)<br>
+[Directory setup](#Directory-setup)<br>
+[Adapter trimming](#Adapter-trimming)<br>
+[Read alignment](#Read-alignment)<br>
+[Index your BAM files](#Index-your-BAM-files)<br>
+[SNP calling](#SNP-calling)<br>
 
 ## GWAS samples included in this analysis
 |Population | Number of individuals |
