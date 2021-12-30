@@ -8,6 +8,7 @@ Code relating to Reneth's GWAS project
 [Read alignment](#Read-alignment)<br>
 [Index your BAM files](#Index-your-BAM-files)<br>
 [SNP calling](#SNP-calling)<br>
+[Filter SNP calls](#Filter-SNP-calls)<br>
 
 ## GWAS samples included in this analysis
 |Population | Number of individuals |
@@ -158,3 +159,17 @@ Once BWA-MEM has completed, you must index the `BAM` files before you can move o
 Now, we proceed to the actual SNP-calling step. Use the script [scythe_mpileup.sh](snp_calling/scythe_mpileup.sh) to do this. Like the alignment step, this will take several hours. One parameter to pay particular attention to is the `-q 20` option. This means that _the minimum mapping quality (MQ) for an alignment to be used_ is 20. This is a measurement of the quality of the read being mapped, not the base at the SNP. You can increase the stringency up to `-q 60`, although `-q 20` is acceptable It's a phred-like score and means that the minimum acceptable probability for a read being correct is 99%. Reads with a lower mapping quality are filtered out. Many (if not most) reads will have an even higher probability of being right.<br>
 **Note:** This script uses [GNU Parallel](https://www.gnu.org/software/parallel/), so make sure you cite the program in any manuscript that uses results from these data. You can get the citation info by running `parallel --citation`. (You'll need to run `module load parallel` first.)<br>
 **Note:** This took a little more than 2 days to run (2 days, 2 hours, 45 minutes, 15 seconds to be exact). The script is set to 96 hours (4 days) because I previously ran it for 48 hours and it wasn't sufficient so the script timed out.
+
+## Filter SNP calls
+Once the SNP calling step is done, you will have a list of 2,183 g-zipped `VCF` files (`.vcf.gz`). There is one file per chromosome/scaffold. Most of these don't contain any SNPs at all, so it isn't worth looking at them. They're also quite small (insignificant) in terms of length of genome sequence. Since we renamed the scaffolds, you no longer need to worry about the original scaffold names deliered to us by Dovetail. You will need to make a file like [vcf_file_list.txt](helper_files/vcf_file_list.txt). I made this manually because it's just a list of the files we actually want to look at (instead of all 2,183). The first one is `211227_snp_calling_results_ZPchr0001.vcf.gz`, the second is called `211227_snp_calling_results_ZPchr0002.vcf.gz`, and so forth all the way through `211227_snp_calling_results_ZPchr0016.vcf.gz`. However, the 17th scaffold (which is important because it is greater than 4 Mb in size contains the Northern Wild Rice _sh4_ ortholog) is called `211227_snp_calling_results_ZPchr0458.vcf.gz`. It was originally Scaffold_453, but we didn't include it in the renaming process because it wasn't among the 15 largest scaffolds.  If we had included it, it would have been ZPchr0017.
+
+Anyway, use the script [filter_with_vcftools.sh](filter_vcfs/filter_with_vcftools.sh) to filter the `VCF` files in order to meet your desired parameters. The way the script is currently written, the parameters are:<br>
+* Maximum 10% missing data (`--max-missing 0.90`). _I know this is confusing, but it's correct._
+* Bi-allelic sites only (`--min-alleles 2 --max-alleles 2`)
+* Minor allele frequency is 0.03 (`--maf 0.03`)
+* No indels (`--remove-indels`)
+* Minimum depth of 8 reads required at a SNP (`--minDP 8`)
+
+**Note:** So far, most of the software programs we have been using so far have already been installed by the Minnesota Supercomputing Institute (MSI). That's why you can use them by calling `module load` and then referring to them in your code simply by calling the name of the program (e.g., `bwa`, `samtools`, or `bcftools`). [`VCFtools`](https://vcftools.github.io/index.html) is different because I had to install it myself and refer to the place where it is installed in my script (`~/vcftools/bin/vcftools`) rather than just using `vcftools`.
+
+Once the `VCF` files have been filtered according to your desired parameters, you can move on to the next step: putting the SNP calls into a `CSV`-formatted SNP matrix. However, I also like working with [plink](https://zzz.bwh.harvard.edu/plink/index.shtml), especially for performing principal component analysis (PCA). As a first step in that analysis, I merge the 17 filtered `VCF` files into a single merged `VCF` file with [concat_filtered_vcfs.sh](filter_vcfs/concat_filtered_vcfs.sh).
