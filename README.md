@@ -1,4 +1,4 @@
-# README for reneth_gwas
+# README for reneth_gwas :dna:
 Code relating to Reneth's GWAS project
 
 ## Contents
@@ -155,3 +155,6 @@ After you have trimmed the adapters from the reads, the next step is to align th
 Once BWA-MEM has completed, you must index the `BAM` files before you can move on to the SNP calling step. Use the script [index_bams.sh](index_bams.sh) in order to accomplish this. You also need the file [reneth_gwas_sorted_bam_list.txt](helper_files/reneth_gwas_sorted_bam_list.txt) in order to make it work.
 
 ## SNP calling
+Now, we proceed to the actual SNP-calling step. Use the script [scythe_mpileup.sh](snp_calling/scythe_mpileup.sh) to do this. Like the alignment step, this will take several hours. One parameter to pay particular attention to is the `-q 20` option. This means that _the minimum mapping quality (MQ) for an alignment to be used_ is 20. This is a measurement of the quality of the read being mapped, not the base at the SNP. You can increase the stringency up to `-q 60`, although `-q 20` is acceptable It's a phred-like score and means that the minimum acceptable probability for a read being correct is 99%. Reads with a lower mapping quality are filtered out. Many (if not most) reads will have an even higher probability of being right.<br>
+**Note:** This script uses [GNU Parallel](https://www.gnu.org/software/parallel/), so make sure you cite the program in any manuscript that uses results from these data. You can get the citation info by running `parallel --citation`. (You'll need to run `module load parallel` first.)<br>
+**Note:** This took a little more than 2 days to run (2 days, 2 hours, 45 minutes, 15 seconds to be exact).
