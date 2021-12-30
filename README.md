@@ -152,7 +152,7 @@ After you have trimmed the adapters from the reads, the next step is to align th
 5) [run_bwa_K2.sh](alignment/run_bwa_K2.sh) which requries [K2_samples.txt](helper_files/K2_samples.txt)
 
 ## Index your `BAM` files
-Once BWA-MEM has completed, you must index the `BAM` files before you can move on to the SNP calling step. Use the script [index_bams.sh](index_bams.sh) in order to accomplish this. You also need the file [reneth_gwas_sorted_bam_list.txt](helper_files/reneth_gwas_sorted_bam_list.txt) in order to make it work.
+Once BWA-MEM has completed, you must index the `BAM` files before you can move on to the SNP calling step. Use the script [index_bams.sh](index_bams/index_bams.sh) in order to accomplish this. You also need the file [reneth_gwas_sorted_bam_list.txt](helper_files/reneth_gwas_sorted_bam_list.txt) in order to make it work.
 
 ## SNP calling
 Now, we proceed to the actual SNP-calling step. Use the script [scythe_mpileup.sh](snp_calling/scythe_mpileup.sh) to do this. Like the alignment step, this will take several hours. One parameter to pay particular attention to is the `-q 20` option. This means that _the minimum mapping quality (MQ) for an alignment to be used_ is 20. This is a measurement of the quality of the read being mapped, not the base at the SNP. You can increase the stringency up to `-q 60`, although `-q 20` is acceptable It's a phred-like score and means that the minimum acceptable probability for a read being correct is 99%. Reads with a lower mapping quality are filtered out. Many (if not most) reads will have an even higher probability of being right.<br>
