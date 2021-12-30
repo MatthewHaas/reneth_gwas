@@ -10,6 +10,7 @@ Code relating to Reneth's GWAS project
 [SNP calling](#SNP-calling)<br>
 [Filter SNP calls](#Filter-SNP-calls)<br>
 [Principal component analysis](#Principal-component-analysis)
+[Create SNP matrix](#Create-SNP-matrix)
 
 ## GWAS samples included in this analysis
 |Population | Number of individuals |
@@ -184,3 +185,10 @@ The first part tells bash to use R; the next position (technically the "0" posit
 
 One of the output files will be a `PDF` file with multiple PCA plots (through the first 8 PCs). We use `PDF` format because it is superior in terms of maintaining resolution. However, you can export to other file types including `PNG`, `JPG`, or `TIF` for presentations, publications, or to use in your own GitHub repositories like the example below (generated in the process of creating this README document).<br>
 <img src="images/reneth_gwas_PC1_vs_PC2.png" width="500">
+
+## Create SNP matrix
+The conversion of the `VCF` files to a single tab-separated value (`TSV`) file containing the SNP data is done using `AWK`. The script that does the work is called [normalize.awk](create_snp_matrix/normalize.awk) and is launched using [run_normalize_awk.sh](create_snp_matrix/run_normalize_awk.sh). The `TSV` file is in long format. That means it has one line per SNP + Individual (sample) combination. You'll want to put this into a SNP matrix (`CSV` format) that has one column per sample and one row per SNP. The R script [filter_snps_and_make_wide_format.R](create_snp_matrix/filter_snps_and_make_wide_format.R) will do this. You run the R script using the bash script [run_filter_snps_and_make_wide_format.sh](create_snp_matrix/run_filter_snps_and_make_wide_format.sh). It takes the `TSV` format as input (`args[1]` in R) and outputs a `CSV` file containing the SNP matrix and an `.Rdata` file from the process (`args[2]` ad `args[3]`, respectively).
+
+**Note:** When I initially wrote [filter_snps_and_make_wide_format.R](create_snp_matrix/filter_snps_and_make_wide_format.R), I wrote it so that low-confidence heterozygotes were removed. I did this because SAMtools will call a heterozygote with only a single alternate read to support it. Ideally, you would like to have a little more confidence that it's a true heterozygote and not a sequencing or alignment error. I initially used a minimum depth of 6 (`--minDP 6` in VCFtools) and therefore wanted to use a minimum of 3 alternate alleles (3/6 or 50% of reads at a given SNP); however, rather than removing the SNP entirely, it is just replaced with an "NA" value. I think this is because there are homozygous SNP calls in other individuals at the same locus. So, it becomes a matter of which is worse: some heterozygotes that you might be unsure of or an increase in the amount of missing data. You can change this by removing the `#` symbol in front of `#y[GT==0 | GT == 2 | (GT==1 & DV >= 3)] -> z` if you want to opt for missing data instead.
+
+Congats! You should now have the SNP data you need to do for down-stream analyses (GWAS, pop-gen, etc).:tada:
