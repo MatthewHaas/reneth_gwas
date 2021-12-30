@@ -9,6 +9,7 @@ Code relating to Reneth's GWAS project
 [Index your BAM files](#Index-your-BAM-files)<br>
 [SNP calling](#SNP-calling)<br>
 [Filter SNP calls](#Filter-SNP-calls)<br>
+[Principal component analysis](#Principal-component-analysis)
 
 ## GWAS samples included in this analysis
 |Population | Number of individuals |
@@ -174,5 +175,12 @@ Anyway, use the script [filter_with_vcftools.sh](filter_vcfs/filter_with_vcftool
 
 Once the `VCF` files have been filtered according to your desired parameters, you can move on to the next step: putting the SNP calls into a `CSV`-formatted SNP matrix. However, I also like working with [plink](https://zzz.bwh.harvard.edu/plink/index.shtml), especially for performing principal component analysis (PCA). As a first step in that analysis, I merge the 17 filtered `VCF` files into a single merged `VCF` file with [concat_filtered_vcfs.sh](filter_vcfs/concat_filtered_vcfs.sh).
 
+## Principal component analysis
+The first step in the pricipal component analysis (PCA) is to run the script [run_plink.sh](plink/run_plink.sh) which will convert the merged `VCF` file into plink format and generate the _eigenvalue_ and _eigenvector_ files that are necessary to make the PCA plots in the R statistical environment. The _eigenvalue_ tells you how much variation is explained by each of the principal components while the _eigenvector_ provides plotting coordinates for each sample on the PCA plot(s). The next step is to run the script [run_plot_plink_pca.sh](plink/run_plot_plink_pca.sh) which requires the R script [plot_plink_pca.R](plink/plot_plink_pca.R) and the `CSV` file [211227_reneth_gwas_sample_key.csv](helper_files/211227_reneth_gwas_sample_key.csv). The path to that `CSV` file is hard-coded into my script so you'll need to change that to reflect where you put the file. You will notice several components to the bash script:<br>
+```bash
+Rscript plot_plink_pca.R  reneth_gwas_pca.eigenvec reneth_gwas_pca.eigenval 211227_reneth_gwas.pdf 211227_reneth_gwas.Rdata
+```
+The first part tells bash to use R; the next position (technically the "0" position is the name of the R script you want to use). The following files (positions 1, 2, 3, and 4 or `args[1]`, `args[2]`, `args[3]`, and `args[4]` in the R language) are file names that are inserted into the R script in lieu of hard-coding them into the script itself. This way, you can repeatedly use the same R script.
 
+One of the output files will be a `PDF` file with multiple PCA plots (through the first 8 PCs). We use `PDF` format because it is superior in terms of maintaining resolution. However, you can export to other file types including `PNG`, `JPG`, or `TIF` for presentations, publications, or to use in your own GitHub repositories like the example below (generated in the process of creating this README document).<br>
 <img src="images/reneth_gwas_PC1_vs_PC2.png" width="500">
