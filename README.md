@@ -9,8 +9,8 @@ Code relating to Reneth's GWAS project
 [Index your BAM files](#Index-your-BAM-files)<br>
 [SNP calling](#SNP-calling)<br>
 [Filter SNP calls](#Filter-SNP-calls)<br>
-[Principal component analysis](#Principal-component-analysis)
-[Create SNP matrix](#Create-SNP-matrix)
+[Principal component analysis](#Principal-component-analysis)<br>
+[Create SNP matrix](#Create-SNP-matrix)<br>
 
 ## GWAS samples included in this analysis
 |Population | Number of individuals |
