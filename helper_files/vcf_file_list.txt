@@ -1,0 +1,17 @@
+211227_snp_calling_results_ZPchr0001.vcf.gz
+211227_snp_calling_results_ZPchr0002.vcf.gz
+211227_snp_calling_results_ZPchr0003.vcf.gz
+211227_snp_calling_results_ZPchr0004.vcf.gz
+211227_snp_calling_results_ZPchr0005.vcf.gz
+211227_snp_calling_results_ZPchr0006.vcf.gz
+211227_snp_calling_results_ZPchr0007.vcf.gz
+211227_snp_calling_results_ZPchr0008.vcf.gz
+211227_snp_calling_results_ZPchr0009.vcf.gz
+211227_snp_calling_results_ZPchr0010.vcf.gz
+211227_snp_calling_results_ZPchr0011.vcf.gz
+211227_snp_calling_results_ZPchr0012.vcf.gz
+211227_snp_calling_results_ZPchr0013.vcf.gz
+211227_snp_calling_results_ZPchr0014.vcf.gz
+211227_snp_calling_results_ZPchr0015.vcf.gz
+211227_snp_calling_results_ZPchr0016.vcf.gz
+211227_snp_calling_results_ZPchr0458.vcf.gz
