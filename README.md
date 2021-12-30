@@ -191,4 +191,10 @@ The conversion of the `VCF` files to a single tab-separated value (`TSV`) file c
 
 **Note:** When I initially wrote [filter_snps_and_make_wide_format.R](create_snp_matrix/filter_snps_and_make_wide_format.R), I wrote it so that low-confidence heterozygotes were removed. I did this because SAMtools will call a heterozygote with only a single alternate read to support it. Ideally, you would like to have a little more confidence that it's a true heterozygote and not a sequencing or alignment error. I initially used a minimum depth of 6 (`--minDP 6` in VCFtools) and therefore wanted to use a minimum of 3 alternate alleles (3/6 or 50% of reads at a given SNP); however, rather than removing the SNP entirely, it is just replaced with an "NA" value. I think this is because there are homozygous SNP calls in other individuals at the same locus. So, it becomes a matter of which is worse: some heterozygotes that you might be unsure of or an increase in the amount of missing data. You can change this by removing the `#` symbol in front of `#y[GT==0 | GT == 2 | (GT==1 & DV >= 3)] -> z` if you want to opt for missing data instead.
 
+**Note:** When I want to add meaningful sample names to the SNP matrix, I add them in a way with no room for mistake:
+1) Copy and paste the sample numbers (Sample_####) from the column names in the `CSV` file and transposte them into a single column in the sample key file
+2) Use `VLOOKUP` to extract the sample names from the key as they correspond to the sample numbers.
+3) Copy and paste the results from `VLOOKUP` in place _using values_ so the values remain, but the formulas do not.
+4) Copy and paste (transpose) into the `CSV` SNP matrix in a row beneath the sample numbers. You may want to insert an empty row before doing this.
+
 Congats! You should now have the SNP data you need to do for down-stream analyses (GWAS, pop-gen, etc).:tada:
